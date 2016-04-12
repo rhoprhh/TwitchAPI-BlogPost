@@ -26,6 +26,8 @@ end
 #Gives the top 10 games, number of people watching and on how many channels.
 def games_and_players(num)
   average = []
+  total_viewers_for_streamers = 0
+  total_viewers_for_games = 0
   #gets top num games from list
   games = Twitch.games.top(:limit => num[0])
   games.each do |x|
@@ -43,22 +45,19 @@ def games_and_players(num)
     puts "#{x.name} has #{x.viewer_count} viewers on #{x.channel_count} channels"
     puts "That is an average of " + (x.viewer_count/x.channel_count).to_s + " per channel."
     puts "The top 5 streamers of this game are currently: "
-    total = 0
+    single_game_total = 0
     streamers.each_with_index do |y,i|
       streams = Twitch.streams.get(y)
       puts "#{i+1}. #{streamer_display_names[i]} with #{streams.viewer_count} viewers."
-      total += streams.viewer_count
+      total_viewers_for_streamers += streams.viewer_count
+      single_game_total += streams.viewer_count
     end
-    total2 = (total.to_f/x.viewer_count.to_f*100).round(2)
-    average << total2
+    total2 = (single_game_total.to_f/x.viewer_count.to_f*100).round(2)
+    total_viewers_for_games += x.viewer_count
     puts "They account for #{total2}% of the total viewship."
     3.times do puts "" end
   end
-  total_avg = 0
-  average.each do |x|
-    total_avg += x
-  end
-  avg_percent = (total_avg / average.length).round(2)
+  avg_percent = (total_viewers_for_streamers.to_f / total_viewers_for_games.to_f*100).round(2)
   puts "That means for these games the top #{num[1]} streamers are responsible for"
   puts "an averge of #{avg_percent}% of the total viewership of their games."
   3.times do puts "" end
