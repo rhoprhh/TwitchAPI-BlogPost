@@ -3,13 +3,6 @@ require 'kappa'
 
 #######After you have been authenticated to the app, then the following commands can be run.
 
-# Twitch.configure do |config|
-#   config.client_id = '***REMOVED***'
-# end
-
-#channel_names = ['walkingdeadd', 'enclave67', 'tehcw1', 'hsdogdog',
-  #               'syanarah', 'bmkibler', 'itshafu']
-#feed this an array of usernames for basic info on the user.
 def output_basic_info(channel_names)
   channel_names.each do |x|
     channel = Twitch.channels.get(x)
