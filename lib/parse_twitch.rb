@@ -24,17 +24,17 @@ def output_basic_info(channel_names)
 end
 
 #Gives the top 10 games, number of people watching and on how many channels.
-def games_and_players(num)
+def games_and_players(num1, num2)
   average = []
   total_viewers_for_streamers = 0
   total_viewers_for_games = 0
   #gets top num games from list
-  games = Twitch.games.top(:limit => num[0])
+  games = Twitch.games.top(:limit => num1)
   games.each do |x|
     streamers = []
     streamer_display_names = []
     #get the top 5 streamers for each game
-    x.streams(:limit => num[1]).each do |yy|
+    x.streams(:limit => num2).each do |yy|
       streamers << yy.channel.name
       streamer_display_names << yy.channel.display_name
       #store display name here, use index later to call these names back
@@ -58,7 +58,7 @@ def games_and_players(num)
     3.times do puts "" end
   end
   avg_percent = (total_viewers_for_streamers.to_f / total_viewers_for_games.to_f*100).round(2)
-  puts "That means for these games the top #{num[1]} streamers are responsible for"
+  puts "That means for these games the top #{num1} streamers are responsible for"
   puts "an averge of #{avg_percent}% of the total viewership of their games."
   3.times do puts "" end
 end
