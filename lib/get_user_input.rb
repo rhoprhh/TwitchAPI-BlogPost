@@ -10,14 +10,12 @@ def get_channels
     output << input
     input = gets.chomp
   end
-  puts ''
-  puts ''
-  puts ''
+  3.times do puts "" end
   output
 end
 
 
-def get_num_of_games
+def get_num_of_games_and_streamers
   input_int=0
   #limit top#num of streams and top#games total to 50
   #include an input for getting how many streamers you want per game
