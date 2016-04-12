@@ -1,0 +1,14 @@
+Welcome to my Github Repository for the Twitch API and the Kappa Gem
+Here is the code I originally wrote in order to begin to understand
+how to access API's and how to install and use Gems.
+
+To visit the Twitch API visit http://dev.twitch.tv
+To visit the RubyGems page on the Kappa Gem visit https://rubygems.org/gems/kappa/versions/1.0.2
+
+I used version 1.0.2 of the gem in this build
+The bundler is built in and will download the required gems if you run: bundle install
+while in the home directory for this repo.
+
+My post will eventually be on Medium.
+You can find me @rhoprhh on Medium
+You can email me at Robert.Hopkins@flatironschool.com
