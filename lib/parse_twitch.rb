@@ -11,12 +11,13 @@ def output_basic_info(channel_names)
     else
       channel = Twitch.channels.get(x)
       user = Twitch.users.get(x)
+      follows_hash = Scraper.new(x)
       puts "=========== USER - #{user.display_name} ================="
       puts "Username is #{user.name} and it is displayed as #{user.display_name}"
       puts "They are following #{user.following.count} people"# and being followed by #{channel.followers.length}."
       puts "Their account was created at #{user.created_at}"
       puts "The most recent game they played on stream was #{channel.game_name} with a stream title of '#{channel.status}'"
-      puts "#{user.display_name} is being followed by #{channel.followers(:limit => 99).length} accounts."
+      puts "#{user.display_name} is being followed by #{follows_hash.follower_count} accounts."
       puts ""
       puts ""
     end
@@ -35,12 +36,11 @@ def games_and_players(num1, num2)
     streamer_display_names = []
     #get the top 5 streamers for each game
     x.streams(:limit => num2).each do |yy|
-      streamers << yy.channel.name
+      streamers << yy.channel.display_name
       streamer_display_names << yy.channel.display_name
       #store display name here, use index later to call these names back
     end
     #output who top 5 are and their viewer count
-    #streamers.insert(4, 'and')
     puts "================= GAME - #{x.name} ====================="
     puts "#{x.name} has #{x.viewer_count} viewers on #{x.channel_count} channels"
     puts "That is an average of " + (x.viewer_count/x.channel_count).to_s + " per channel."
@@ -48,13 +48,16 @@ def games_and_players(num1, num2)
     single_game_total = 0
     streamers.each_with_index do |y,i|
       streams = Twitch.streams.get(y)
-      puts "#{i+1}. #{streamer_display_names[i]} with #{streams.viewer_count} viewers."
+      follows_hash = Scraper.new(y)
+      percent_watching = (streams.viewer_count.to_f/x.viewer_count.to_f*100).round(2)
+      puts "#{i+1}. #{streamer_display_names[i]} with #{streams.viewer_count} viewers. ".ljust(40) + "That's #{percent_watching}% of the total viewers of this game watching this channel.".ljust(72) + "This channel has #{follows_hash.follower_count} followers"
       total_viewers_for_streamers += streams.viewer_count
       single_game_total += streams.viewer_count
     end
     total2 = (single_game_total.to_f/x.viewer_count.to_f*100).round(2)
     total_viewers_for_games += x.viewer_count
-    puts "They account for #{total2}% of the total viewship."
+    puts ""
+    puts "".rjust(45) + "They account for #{total2}% of the game's total viewer count."
     3.times do puts "" end
   end
   avg_percent = (total_viewers_for_streamers.to_f / total_viewers_for_games.to_f*100).round(2)

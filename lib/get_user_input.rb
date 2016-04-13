@@ -50,14 +50,14 @@ class Inputs
   def get_num_of_games_and_streamers
     #limit top#num of streams and top#games total to 50
     #include an input for getting how many streamers you want per game
-    puts "Please enter the number of top games you want info about (limit 75 total entries (streamers * games))"
+    puts "Please enter the number of top games you want info about (limit 50 total entries (streamers * games))"
     @input_games = gets.chomp.to_i
     puts "Please enter the number of streamers per game:"
     @input_streamers = gets.chomp.to_i
     total = (@input_games * @input_streamers)
-    unless total < 76 && total > 0
+    unless total < 51 && total > 0
       puts "invalid command, please try again"
-      puts "Please enter the number of top games you want info about (limit 75)"
+      puts "Please enter the number of top games you want info about (limit 50t otal entries (streamers * games))"
       input_games = gets.chomp.to_i
       puts "Please enter the number of streamers per game:"
       input_streamers = gets.chomp.to_i
